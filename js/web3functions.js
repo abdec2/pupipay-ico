@@ -97,17 +97,12 @@ async function onConnect() {
     }
   
     // Subscribe to accounts change
-    provider.on("accountsChanged", (accounts) => {
+    window.ethereum.on("accountsChanged", (accounts) => {
         fetchAccountData();
     });
   
     // Subscribe to chainId change
-    provider.on("chainChanged", (chainId) => {
-      fetchAccountData();
-    });
-  
-    // Subscribe to networkId change
-    provider.on("networkChanged", (networkId) => {
+    window.ethereum.on("chainChanged", (chainId) => {
       fetchAccountData();
     });
   
