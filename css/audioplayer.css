@@ -1,0 +1,198 @@
+/* RemixDesign | woaichidapi@163.com | Redesigned by JimmyCheung */
+
+.audioplayer {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    margin: 0 0;
+    align-items: end;
+    position: relative;
+}
+
+.audioplayer-playpause {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #21212C;
+    box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.35);
+    border-radius: 100%;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+.audioplayer-time-current {
+    position: absolute;
+    top: 5px;
+    display: block;
+    left: 65px;
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #211F2D;
+}
+.audioplayer-time-duration {
+    position: absolute;
+    top: 5px;
+    display: block;
+    right: 0;
+    font-family: 'Nunito Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #211F2D;
+}
+
+.audioplayer-bar {
+    position: relative;
+    display: flex;
+    margin: 0 0 12px 16px;
+    height: 12px;
+    flex-basis: 0;
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.audioplayer-bar::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    width: 100%;
+    height: 6px;
+    background-color: #000;
+}
+
+.audioplayer-bar > div {
+    position: absolute;
+    left: 0;
+    top: 5px;
+}
+.audioplayer-bar-loaded {
+    z-index: 1;
+    height: 6px;
+    background: #bec8d2;
+}
+
+.audioplayer-bar-played {
+    flex-direction: row-reverse;
+    z-index: 2;
+    height: 6px;
+    background: -webkit-linear-gradient(left, #0059ff, #09b1fa);
+}
+.audioplayer-volume {
+    display: none;
+}
+.audioplayer-mute .audioplayer-volume-button a {
+    background-color: #fd4f1a;
+}
+
+.audioplayer-mute .audioplayer-volume-button a:before {
+    border-right: 9px solid #fd4f1a;
+}
+
+.audioplayer-volume-adjust {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+}
+
+.audioplayer-volume-adjust > div {
+    position: relative;
+    display: flex;
+    width: 60px;
+    height: 6px;
+    cursor: pointer;
+    background-color: #bec8d2;
+}
+
+.audioplayer-volume-adjust div div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 6px;
+    background-color: #0059ff;
+}
+
+/* responsive | you can change the max-width value to match your theme */
+
+@media screen and (max-width: 679px) {
+    .audioplayer-volume-adjust {
+        display: none;
+    }
+}
+
+
+
+.audioplayer-playpause{  
+    background: rgba(255, 255, 255, 0.6);
+    height: 48px;
+    width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    content: #000;
+    box-shadow: none;
+}
+.audioplayer-playpause:before{
+    position: absolute;
+    content: "\f04b";
+    font-size: 18px;
+    color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+}
+.audioplayer.audioplayer-playing .audioplayer-playpause:before{
+    content: "\f04c";   
+    color: #4B32C2;
+}
+
+.audioplayer-bar > div{top: 0;}
+.audioplayer-bar{
+    background: #211F2D;
+    border-radius: 10px;
+    padding: 0;
+    position: relative;
+    border-radius: 10px;
+    height:6px;
+    width: 100%;
+}
+.audioplayer-bar-loaded{
+    background: #ff002a;
+    height: 3px;
+    border-radius: 3px;
+}
+.audioplayer-bar-loaded{background: transparent;}
+.audioplayer-bar::before{display: none;}
+.audioplayer-bar-played{
+    background: #645674;
+    border-radius: 10px;
+    border-radius: 10px;
+}
+.audioplayer-volume a{
+    position: relative;
+}
+
+.audioplayer .audioplayer-volume-button a:before{
+    position: absolute;
+    content: "\f028";
+    font-size: 14px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Font Awesome 5 Pro";
+    font-weight: 900;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+.audioplayer-mute .audioplayer-volume-button a:before{
+    content: "\f6a9";
+    border: none;  
+}
