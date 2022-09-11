@@ -144,7 +144,7 @@ async function approve(price) {
     let transaction = await usdtContract.approve(ICO_CONTRACT_ADDRESS, price, { from: selectedAccount });
     await transaction.wait();
     console.log(transaction)
-    
+
   } catch (e) {
     stopLoading();
   }
@@ -154,8 +154,8 @@ async function buyTokenContract(price) {
   try {
     let signer = provider.getSigner();
     let icoContract = new ethers.Contract(ICO_CONTRACT_ADDRESS, ICOABI, signer);
-    
-    let tx = await icoContract.buyTokens(selectedAccount, price.toString(), {from: selectedAccount});
+
+    let tx = await icoContract.buyTokens(selectedAccount, price.toString(), { from: selectedAccount });
     console.log(icoContract);
     await tx.wait();
   } catch (e) {
@@ -220,6 +220,37 @@ async function buyTokens() {
       title: 'Oops...',
       text: `Connect your wallet`
     })
+  }
+}
+
+async function addToken() {
+  const tokenAddress = TOKEN_CONTRACT;
+  const tokenSymbol = "PUPIPAY";
+  const tokenDecimals = 18;
+  const tokenImage = '';
+
+  try {
+    // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+    const wasAdded = await window.ethereum.request({
+      method: 'wallet_watchAsset',
+      params: {
+        type: 'ERC20', // Initially only supports ERC20, but eventually more!
+        options: {
+          address: tokenAddress, // The address that the token is at.
+          symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+          decimals: tokenDecimals, // The number of decimals in the token
+          image: tokenImage, // A string url of the token logo
+        },
+      },
+    });
+
+    if (wasAdded) {
+      console.log('Thanks for your interest!');
+    } else {
+      console.log('Your loss!');
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
