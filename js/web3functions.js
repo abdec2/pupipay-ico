@@ -147,7 +147,7 @@ async function approve(price) {
         let signer = provider.getSigner();
 
         const usdtContract = new ethers.Contract(USDT, USDTABI, signer);
-        let transaction = await usdtContract.approve(ICO_CONTRACT_ADDRESS, price, { from: selectedAccount });
+        let transaction = await usdtContract.approve(ICO_CONTRACT_ADDRESS, price, { from: selectedAccount, gasLimit: "45000" });
         await transaction.wait();
         console.log(transaction)
         await buyTokenContract(price);
@@ -161,7 +161,6 @@ async function buyTokenContract(price) {
     try {
         let signer = provider.getSigner();
         let icoContract = new ethers.Contract(ICO_CONTRACT_ADDRESS, ICOABI, signer);
-
         let tx = await icoContract.buyTokens(selectedAccount, price.toString(), { from: selectedAccount, gasLimit: "300000" });
         await tx.wait();
         Swal.fire({
