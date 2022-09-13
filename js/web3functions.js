@@ -36,7 +36,7 @@ function init() {
             package: WalletConnectProvider,
             options: {
                 // Mikko's test key - don't copy as your mileage may vary
-                infuraId: "d68b2bf8b2e2457fb37c73aef267f910",
+                infuraId: "0b184a8d42254b289c25034d52459a7d",
             }
         }
     };
