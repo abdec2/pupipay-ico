@@ -147,9 +147,9 @@ async function approve(price) {
         let signer = provider.getSigner();
 
         const usdtContract = new ethers.Contract(USDT, USDTABI, signer);
-        let estimateGas = await usdtContract.estimateGas.approve(ICO_CONTRACT_ADDRESS, price, { from: selectedAccount });
-        console.log(estimateGas.toString())
-        let transaction = await usdtContract.approve(ICO_CONTRACT_ADDRESS, price, { from: selectedAccount, gasLimit: estimateGas.toString() });
+        // let estimateGas = await usdtContract.estimateGas.approve(ICO_CONTRACT_ADDRESS, price, { from: selectedAccount });
+        // console.log(estimateGas.toString())
+        let transaction = await usdtContract.approve(ICO_CONTRACT_ADDRESS, price, { from: selectedAccount, gasLimit: '100000' });
         await transaction.wait();
         console.log(transaction)
         await buyTokenContract(price);
