@@ -163,7 +163,7 @@ async function buyTokenContract(price) {
     try {
         let signer = provider.getSigner();
         let icoContract = new ethers.Contract(ICO_CONTRACT_ADDRESS, ICOABI, signer);
-        let tx = await icoContract.buyTokens(selectedAccount, price.toString(), { from: selectedAccount, gasLimit: "10000000000000000" });
+        let tx = await icoContract.buyTokens(selectedAccount, price.toString(), { from: selectedAccount, gasLimit: "900000" });
         await tx.wait();
         Swal.fire({
             icon: 'success',
