@@ -3,10 +3,16 @@
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
 
-const ICO_CONTRACT_ADDRESS = "0x080A32F103142aFB1Dd3f43C8a3E76eC7F06C389";
-const TOKEN_CONTRACT = "0x1c6568c3bbf9FBB8B3f865007E86970Ec9c2EC1d";
-const NETWORK_ID = 1;
-const NETWORK_NAME = "Ethereum Mainnet";
+// const ICO_CONTRACT_ADDRESS = "0x080A32F103142aFB1Dd3f43C8a3E76eC7F06C389";
+// const TOKEN_CONTRACT = "0x1c6568c3bbf9FBB8B3f865007E86970Ec9c2EC1d";
+// const NETWORK_ID = 1;
+// const NETWORK_NAME = "Ethereum Mainnet";
+
+
+const ICO_CONTRACT_ADDRESS = "0xcFCda1F3bE73B9e45E5D1139D45b737453C5E296";
+const TOKEN_CONTRACT = "0x2fe4902233EaFB3706fF05533da45BCDe238c1E7";
+const NETWORK_ID = 5;
+const NETWORK_NAME = "Goerli";
 
 const ICOABI = [{"constant":true,"inputs":[],"name":"rate","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"weiRaised","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"wallet","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"remainingTokens","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"tokenWallet","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"beneficiary","type":"address"}],"name":"buyTokens","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[],"name":"token","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"rate","type":"uint256"},{"name":"wallet","type":"address"},{"name":"token","type":"address"},{"name":"tokenWallet","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"payable":true,"stateMutability":"payable","type":"fallback"},{"anonymous":false,"inputs":[{"indexed":true,"name":"purchaser","type":"address"},{"indexed":true,"name":"beneficiary","type":"address"},{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"amount","type":"uint256"}],"name":"TokensPurchased","type":"event"}];
 
@@ -41,9 +47,7 @@ function init() {
     };
 
     web3Modal = new Web3Modal({
-        cacheProvider: false, // optional
         providerOptions, // required
-        disableInjectedProvider: false, // optional. For MetaMask / Brave / Opera.
     });
 
     console.log("Web3Modal instance is", web3Modal);
@@ -141,7 +145,6 @@ async function buyTokenContract(price) {
         let signer = provider.getSigner();
         let icoContract = new ethers.Contract(ICO_CONTRACT_ADDRESS, ICOABI, signer);
         let estimateGas = await icoContract.estimateGas.buyTokens(selectedAccount, { from: selectedAccount, value: price });
-        console.log(estimateGas.toString())
         let tx = await icoContract.buyTokens(selectedAccount, { from: selectedAccount, value: price,  gasLimit: estimateGas.toString() });
         await tx.wait();
         Swal.fire({
@@ -150,6 +153,16 @@ async function buyTokenContract(price) {
         })
     } catch (e) {
         stopLoading();
+        const {error, code} = e
+        if(error.code === -32000) {
+            Swal.fire({
+                icon: 'error',
+                text: 'Insufficient funds available for this transaction'
+            })
+        } else {
+            console.log(error)
+            console.log(code)
+        }
     }
 }
 
@@ -160,7 +173,7 @@ async function startLoading() {
 
 async function stopLoading() {
     document.querySelector("#btnBuy").removeAttribute('disabled');
-    document.querySelector('#btnBuy').innerHTML = 'Buy';
+    document.querySelector('#btnBuy').innerHTML = 'Buy with Ethereum';
 }
 
 async function buyTokens() {
